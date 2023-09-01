@@ -6,10 +6,10 @@
 </head>
 <body>
   <h1>Tabela de motivos para contratar o Daniel</h1>
+  <p>Caso a tabela esteja vazia, favor espere alguns segundos pois o backend está em build e logo responderá a requisição</p>
   <table id="motivosTable">
     <thead>
       <tr>
-        <th>ID</th>
         <th>Descrição</th>
         <!-- Adicione mais colunas conforme necessário -->
       </tr>
@@ -29,7 +29,6 @@
         // Preenche a tabela com os dados obtidos
         data.forEach(function(motivo) {
           var row = $("<tr>");
-          row.append($("<td>").text(motivo.id));
           row.append($("<td>").text(motivo.descricao));
           // Adicione mais colunas conforme necessário
           $("#motivosTable tbody").append(row);
