@@ -1,40 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-  <title>Exemplo de Tabela com Requisição GET</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteio Erogêneo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sorteando {
+            animation: girar 0.5s infinite alternate;
+        }
+        @keyframes girar {
+            from { opacity: 0.5; transform: scale(1); }
+            to { opacity: 1; transform: scale(1.2); }
+        }
+    </style>
+    <script>
+        function sortear(elementId, lista) {
+            let elemento = document.getElementById(elementId);
+            elemento.classList.add("sorteando");
+            
+            let intervalo = setInterval(() => {
+                elemento.innerText = lista[Math.floor(Math.random() * lista.length)];
+            }, 100);
+            
+            setTimeout(() => {
+                clearInterval(intervalo);
+                elemento.innerText = lista[Math.floor(Math.random() * lista.length)];
+                elemento.classList.remove("sorteando");
+            }, 2000);
+        }
+
+        function sortearAcao() {
+            const acoes = ["Morder", "Lamber", "Beijar", "Tocar", "Massagear", "Acariciar", "Chupar", "Passa a vez"];
+            sortear("resultadoAcao", acoes);
+        }
+        
+        function sortearLocal() {
+            const locais = ["Orelha", "Pescoço", "Peito", "Bunda", "Barriga", "Coxa", "Costas", "Lábios", "Pés", "Você escolhe"];
+            sortear("resultadoLocal", locais);
+            let resetar_tudo = setInterval(() => {
+              resetar()
+            }, 10000)
+        }
+
+        function resetar() {
+            document.getElementById("resultadoAcao").innerText = "?";
+            document.getElementById("resultadoLocal").innerText = "?";
+        }
+    </script>
 </head>
-<body>
-  <h1>Tabela de motivos para contratar o Daniel</h1>
-  <p>Caso a tabela esteja vazia, favor espere alguns segundos pois o backend está em build e logo responderá a requisição</p>
-  <table id="motivosTable">
-    <thead>
-      <tr>
-        <th>Descrição</th>
-        <!-- Adicione mais colunas conforme necessário -->
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Os dados da tabela serão preenchidos aqui -->
-    </tbody>
-  </table>
-
-  <script>
-    $(document).ready(function() {
-      // Faz a requisição GET para a URL
-      $.get("https://nagronode.onrender.com/motivos", function(data) {
-        // Limpa o conteúdo anterior da tabela
-        $("#motivosTable tbody").empty();
-
-        // Preenche a tabela com os dados obtidos
-        data.forEach(function(motivo) {
-          var row = $("<tr>");
-          row.append($("<td>").text(motivo.descricao));
-          // Adicione mais colunas conforme necessário
-          $("#motivosTable tbody").append(row);
-        });
-      });
-    });
-  </script>
+<body class="container text-center mt-5">
+    <h1 class="mb-4">Sorteio Erogêneo</h1>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Ação</h3>
+            <button class="btn btn-primary" onclick="sortearAcao()">Sortear Ação</button>
+            <p class="mt-3 fs-4" id="resultadoAcao">?</p>
+        </div>
+        
+        <div class="col-md-6">
+            <h3>Local</h3>
+            <button class="btn btn-danger" onclick="sortearLocal()">Sortear Local</button>
+            <p class="mt-3 fs-4" id="resultadoLocal">?</p>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <button class="btn btn-secondary" onclick="resetar()">Reiniciar</button>
+    </div>
 </body>
 </html>
